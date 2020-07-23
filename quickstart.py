@@ -51,13 +51,11 @@ def main():
     # Call the Classroom API
     results = service.courses().list(pageSize=10).execute()
     courses = results.get('courses', [])
-    students = service.courses().students().list(courseId='54037214274').execute()
-    #students = service.courses().students(courseId='54037214274').execute()
-
-    print(students.keys())
-    for student in students.keys():
-        print(student, students[student])
-        #print(course['id'])
+    
+    #students = service.courses().students().list(courseId='54037214274').execute()
+    #print(students.keys())
+    #for student in students.keys():
+    #    print(student, students[student])
 
     if not courses:
         print('No courses found.')
@@ -66,6 +64,20 @@ def main():
         for course in courses:
             print(course['name'])
             print(course['id'])
+
+    course = {
+    'name': 'From API',
+    'section': 'Period 2',
+    'descriptionHeading': 'Mi primer curso desde api-heading',
+    'description': """We'll to create more courses soon!""",
+    'room': 'Teinco2',
+    'ownerId': 'me',
+    'courseState': 'ACTIVE'
+    }
+    course = service.courses().create(body=course).execute()
+    print ('Course created: {0} ({1})'.format(course.get('name'),
+        course.get('id')))
+
 
 if __name__ == '__main__':
     main()
